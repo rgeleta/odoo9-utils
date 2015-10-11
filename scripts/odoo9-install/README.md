@@ -17,12 +17,17 @@ Preparing and running the installation script for your installation
 3. Review the install log file, check for errors in the install process
 
   a. search for /rror/ (to catch 'Error' and 'error')
+  * wkhtmltox will fail due to prerequisites, will be fixed later in script
   
   b. search for /ERROR/
   
   c. search for /arning/ (to catch 'Warning' and 'warning')
   
   d. search for /WARNING/
+
+4. Reset password for user postgres in Virtualmin/Webmin
+5. Using browser go to http://example.com:8069 
+
   
 
 
