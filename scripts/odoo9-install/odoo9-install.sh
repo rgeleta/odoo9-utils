@@ -20,6 +20,7 @@
 #
 # show commands being executed
 set -x
+date
 #
 # set the postgres version number
 RG_PG_VERSION=9.3
@@ -228,6 +229,7 @@ echo -e "* Start Odoo on Startup"
 sudo update-rc.d $OE_CONFIG defaults
  
 sudo service $OE_CONFIG start
+date
 echo "Done! The Odoo server can be started with: service $OE_CONFIG start"
 
 
