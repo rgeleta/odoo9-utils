@@ -1,23 +1,22 @@
 #!/bin/bash
-################################################################################
+######################################################################
 # Script for Installation: Odoo 9.0 Community server on Ubuntu 14.04 LTS
 # Author: André Schenkels, ICTSTUDIO 2015
 # 
 # Modifications:
 # Author: Robert Geleta, www.rgeleta.com
-#-------------------------------------------------------------------------------
+#---------------------------------------------------------------------
 #  
 # This script will install Odoo Server on
 # Ubuntu 14.04 Server with Virtualmin installed
-#-------------------------------------------------------------------------------
+#---------------------------------------------------------------------
 # USAGE:
 #
 # script to be run by a caller script doit.sh containing line:
 # sudo ./odoo9-install.sh 2>&1 > tee odoo9-install.log
 #
-################################################################################
+######################################################################
 
-# XXX OE_USER="odoo"
 OE_USER="odoo9"
 OE_HOME="/opt/$OE_USER"
 OE_HOME_EXT="/opt/$OE_USER/$OE_USER-server"
@@ -28,20 +27,14 @@ OE_VERSION="9.0"
 #set the superadmin password
 OE_SUPERADMIN="superadminpassword"
 OE_CONFIG="$OE_USER-server"
-################################################################################
+######################################################################
 # rg changes - Start
-
-# Global change ODOO to Odoo for better visibility
-
+#
 #set the postgres version number
 RG_PG_VERSION=9.3
 #
-# turn on set for visibility of commands during execution
-set +x
-
-#
 # rg changes - End
-################################################################################
+######################################################################
 
 #--------------------------------------------------
 # Update Server
@@ -77,7 +70,7 @@ sudo service postgresql restart
 #--------------------------------------------------
 
 echo -e "\n---- Create Odoo system user ----"
-sudo adduser --system --quiet --shell=/bin/bash --home=$OE_HOME --gecos 'Odoo' --group $OE_USER
+sudo adduser --system --quiet --shell=/bin/bash --home=$OE_HOME --gecos "$OE_USER" --group $OE_USER
 
 echo -e "\n---- Create Log directory ----"
 sudo mkdir /var/log/$OE_USER
