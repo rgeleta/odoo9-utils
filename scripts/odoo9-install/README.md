@@ -1,4 +1,4 @@
-Preparing and running the installation script for your installation
+Prepare and run the installation script for your installation
 
 1. Review (and update if desired) `odoo9-install.sh`
 
