@@ -1,22 +1,24 @@
 #!/bin/bash
 ################################################################################
-# Script for Installation: ODOO 9.0 Community server on Ubuntu 14.04 LTS
+# Script for Installation: Odoo 9.0 Community server on Ubuntu 14.04 LTS
 # Author: André Schenkels, ICTSTUDIO 2015
+# 
+# Modifications:
+# Author: Robert Geleta, www.rgeleta.com
 #-------------------------------------------------------------------------------
 #  
-# This script will install ODOO Server on
-# clean Ubuntu 14.04 Server
+# This script will install Odoo Server on
+# Ubuntu 14.04 Server with Virtualmin installed
 #-------------------------------------------------------------------------------
 # USAGE:
 #
-# odoo-install
-#
-# EXAMPLE:
-# ./odoo-install 
+# script to be run by a caller script doit.sh containing line:
+# sudo ./odoo9-install.sh 2>&1 > tee odoo9-install.log
 #
 ################################################################################
 
-OE_USER="odoo"
+# XXX OE_USER="odoo"
+OE_USER="odoo9"
 OE_HOME="/opt/$OE_USER"
 OE_HOME_EXT="/opt/$OE_USER/$OE_USER-server"
 
@@ -26,6 +28,20 @@ OE_VERSION="9.0"
 #set the superadmin password
 OE_SUPERADMIN="superadminpassword"
 OE_CONFIG="$OE_USER-server"
+################################################################################
+# rg changes - Start
+
+# Global change ODOO to Odoo for better visibility
+
+#set the postgres version number
+RG_PG_VERSION=9.3
+#
+# turn on set for visibility of commands during execution
+set +x
+
+#
+# rg changes - End
+################################################################################
 
 #--------------------------------------------------
 # Update Server
@@ -49,9 +65,9 @@ echo -e "\n---- Install PostgreSQL Server ----"
 sudo apt-get install postgresql -y
 
 echo -e "\n---- PostgreSQL $PG_VERSION Settings  ----"
-sudo sed -i s/"#listen_addresses = 'localhost'"/"listen_addresses = '*'"/g /etc/postgresql/9.4/main/postgresql.conf
+sudo sed -i s/"#listen_addresses = 'localhost'"/"listen_addresses = '*'"/g /etc/postgresql/$RG_PG_VERSION/main/postgresql.conf
 
-echo -e "\n---- Creating the ODOO PostgreSQL User  ----"
+echo -e "\n---- Creating the Odoo PostgreSQL User  ----"
 sudo su - postgres -c "createuser -s $OE_USER" 2> /dev/null || true
 
 sudo service postgresql restart
@@ -60,8 +76,8 @@ sudo service postgresql restart
 # System Settings
 #--------------------------------------------------
 
-echo -e "\n---- Create ODOO system user ----"
-sudo adduser --system --quiet --shell=/bin/bash --home=$OE_HOME --gecos 'ODOO' --group $OE_USER
+echo -e "\n---- Create Odoo system user ----"
+sudo adduser --system --quiet --shell=/bin/bash --home=$OE_HOME --gecos 'Odoo' --group $OE_USER
 
 echo -e "\n---- Create Log directory ----"
 sudo mkdir /var/log/$OE_USER
@@ -73,7 +89,7 @@ sudo chown $OE_USER:$OE_USER /var/log/$OE_USER
 echo -e "\n---- Install tool packages ----"
 sudo apt-get install wget git python-pip python-imaging python-setuptools python-dev libxslt-dev libxml2-dev libldap2-dev libsasl2-dev node-less postgresql-server-dev-all -y
 
-echo -e "\n---- Install wkhtml and place on correct place for ODOO 8 ----"
+echo -e "\n---- Install wkhtml and place on correct place for Odoo 8 ----"
 sudo wget http://download.gna.org/wkhtmltopdf/0.12/0.12.2.1/wkhtmltox-0.12.2.1_linux-trusty-amd64.deb
 sudo dpkg -i wkhtmltox-0.12.2.1_linux-trusty-amd64.deb
 sudo apt-get install -f -y
@@ -82,10 +98,10 @@ sudo cp /usr/local/bin/wkhtmltopdf /usr/bin
 sudo cp /usr/local/bin/wkhtmltoimage /usr/bin
 
 #--------------------------------------------------
-# Install ODOO
+# Install Odoo
 #--------------------------------------------------
 
-echo -e "\n==== Download ODOO Server ===="
+echo -e "\n==== Download Odoo Server ===="
 cd $OE_HOME
 sudo su $OE_USER -c "git clone --depth 1 --single-branch --branch $OE_VERSION https://www.github.com/odoo/odoo $OE_HOME_EXT/"
 cd -
@@ -108,7 +124,7 @@ sudo easy_install pyPdf vatnumber pydot psycogreen suds ofxparse
 
 
 #--------------------------------------------------
-# Configure ODOO
+# Configure Odoo
 #--------------------------------------------------
 echo -e "* Create server config file"
 sudo cp $OE_HOME_EXT/debian/openerp-server.conf /etc/$OE_CONFIG.conf
@@ -133,7 +149,7 @@ sudo su root -c "echo 'sudo -u $OE_USER $OE_HOME_EXT/openerp-server --config=/et
 sudo chmod 755 $OE_HOME_EXT/start.sh
 
 #--------------------------------------------------
-# Adding ODOO as a deamon (initscript)
+# Adding Odoo as a deamon (initscript)
 #--------------------------------------------------
 
 echo -e "* Create init file"
@@ -147,7 +163,7 @@ echo '# Should-Stop: $network' >> ~/$OE_CONFIG
 echo '# Default-Start: 2 3 4 5' >> ~/$OE_CONFIG
 echo '# Default-Stop: 0 1 6' >> ~/$OE_CONFIG
 echo '# Short-Description: Enterprise Business Applications' >> ~/$OE_CONFIG
-echo '# Description: ODOO Business Applications' >> ~/$OE_CONFIG
+echo '# Description: Odoo Business Applications' >> ~/$OE_CONFIG
 echo '### END INIT INFO' >> ~/$OE_CONFIG
 echo 'PATH=/bin:/sbin:/usr/bin' >> ~/$OE_CONFIG
 echo "DAEMON=$OE_HOME_EXT/openerp-server" >> ~/$OE_CONFIG
@@ -213,11 +229,11 @@ sudo mv ~/$OE_CONFIG /etc/init.d/$OE_CONFIG
 sudo chmod 755 /etc/init.d/$OE_CONFIG
 sudo chown root: /etc/init.d/$OE_CONFIG
 
-echo -e "* Start ODOO on Startup"
+echo -e "* Start Odoo on Startup"
 sudo update-rc.d $OE_CONFIG defaults
  
 sudo service $OE_CONFIG start
-echo "Done! The ODOO server can be started with: service $OE_CONFIG start"
+echo "Done! The Odoo server can be started with: service $OE_CONFIG start"
 
 
 
