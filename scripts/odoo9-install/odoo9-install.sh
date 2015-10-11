@@ -16,6 +16,16 @@
 # sudo ./odoo9-install.sh 2>&1 > tee odoo9-install.log
 #
 ######################################################################
+# rg additions - Start
+#
+# show commands being executed
+set -x
+#
+# set the postgres version number
+RG_PG_VERSION=9.3
+#
+# rg additions - End
+######################################################################
 
 OE_USER="odoo9"
 OE_HOME="/opt/$OE_USER"
@@ -28,13 +38,6 @@ OE_VERSION="9.0"
 OE_SUPERADMIN="superadminpassword"
 OE_CONFIG="$OE_USER-server"
 ######################################################################
-# rg changes - Start
-#
-#set the postgres version number
-RG_PG_VERSION=9.3
-#
-# rg changes - End
-######################################################################
 
 #--------------------------------------------------
 # Update Server
@@ -43,7 +46,6 @@ echo -e "\n---- Update Server ----"
 sudo apt-get update
 sudo apt-get upgrade -y
 sudo apt-get install -y locales
-
 #--------------------------------------------------
 # Install PostgreSQL Server
 #--------------------------------------------------
