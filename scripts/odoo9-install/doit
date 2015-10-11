@@ -4,6 +4,6 @@
 set +x
 
 # run install script
-sudo source ./odoo9-install.sh 2>&1 | tee odoo9-install.log
+sudo source ./odoo9-install.sh 2>&1 | sudo tee odoo9-install.log
 
 # done
