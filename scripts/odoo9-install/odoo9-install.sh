@@ -60,7 +60,7 @@ echo 'LC_ALL=C.UTF-8' >> /etc/environment
 echo -e "\n---- Install PostgreSQL Server ----"
 sudo apt-get install postgresql -y
 
-echo -e "\n---- PostgreSQL $PG_VERSION Settings  ----"
+echo -e "\n---- PostgreSQL $RG_PG_VERSION Settings  ----"
 sudo sed -i s/"#listen_addresses = 'localhost'"/"listen_addresses = '*'"/g /etc/postgresql/$RG_PG_VERSION/main/postgresql.conf
 
 echo -e "\n---- Creating the Odoo PostgreSQL User  ----"
