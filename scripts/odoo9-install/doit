@@ -4,6 +4,6 @@
 set +x
 
 # run install script
-sudo ./odoo9-install.sh 2>&1 | tee `pwd`/odoo9-install.log
+sudo bash ./odoo9-install.sh 2>&1 | tee `pwd`/odoo9-install.log
 
 # done

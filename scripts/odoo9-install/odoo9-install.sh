@@ -28,7 +28,7 @@ RG_PG_VERSION=9.3
 # rg additions - End
 ######################################################################
 
-OE_USER="odoo9"
+OE_USER="odoo"
 OE_HOME="/opt/$OE_USER"
 OE_HOME_EXT="/opt/$OE_USER/$OE_USER-server"
 
