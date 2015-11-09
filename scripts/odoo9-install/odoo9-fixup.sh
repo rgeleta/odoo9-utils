@@ -3,7 +3,7 @@
 # https://www.odoo.com/forum/help-1/question/qwebtemplatenotfound-external-id-not-found-in-the-system-web-login-56032
 sudo apt-get install python-passlib
 #
-# image problems
+# image problems - Ref:
 # http://blog.instant-erp.com/2015/10/install-odoo-v90-with-nodejs-on-ubuntu.html
 # 
 # install jpeg library
